@@ -10,6 +10,7 @@ function CategoryDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const token = localStorage.getItem('token')
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
   useEffect(() => {
     fetchItems()
@@ -17,7 +18,7 @@ function CategoryDetail() {
 
   const fetchItems = async () => {
     try {
-      const res = await axios.get(`http://localhost:8000/api/items/${id}`, {
+      const res = await axios.get(`${API_URL}/api/items/${id}`, {
         headers: { authorization: `Bearer ${token}` }
       })
       setItems(res.data)
@@ -29,7 +30,7 @@ function CategoryDetail() {
   const addItem = async () => {
     if (!newItem) return
     try {
-      await axios.post('http://localhost:8000/api/items',
+      await axios.post(`${API_URL}/api/items`,
         { name: newItem, quantity, unit, category_id: id },
         { headers: { authorization: `Bearer ${token}` } }
       )
@@ -43,7 +44,7 @@ function CategoryDetail() {
 
   const checkItem = async (itemId) => {
     try {
-      await axios.patch(`http://localhost:8000/api/items/${itemId}/check`, {},
+      await axios.patch(`${API_URL}/api/items/${itemId}/check`, {},
         { headers: { authorization: `Bearer ${token}` } }
       )
       fetchItems()
@@ -54,7 +55,7 @@ function CategoryDetail() {
 
   const deleteItem = async (itemId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/items/${itemId}`, {
+      await axios.delete(`${API_URL}/api/items/${itemId}`, {
         headers: { authorization: `Bearer ${token}` }
       })
       fetchItems()

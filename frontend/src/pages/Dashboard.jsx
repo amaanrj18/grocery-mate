@@ -7,6 +7,7 @@ function Dashboard() {
   const [newCategory, setNewCategory] = useState('')
   const [newEmoji, setNewEmoji] = useState('🛒')
   const navigate = useNavigate()
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
   const token = localStorage.getItem('token')
   const user = JSON.parse(localStorage.getItem('user'))
 
@@ -16,7 +17,7 @@ function Dashboard() {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/categories', {
+      const res = await axios.get(`${API_URL}/api/categories`, {
         headers: { authorization: `Bearer ${token}` }
       })
       setCategories(res.data)
@@ -28,7 +29,7 @@ function Dashboard() {
   const addCategory = async () => {
     if (!newCategory) return
     try {
-      await axios.post('http://localhost:8000/api/categories',
+      await axios.post(`${API_URL}/api/categories`,
         { name: newCategory, emoji: newEmoji },
         { headers: { authorization: `Bearer ${token}` } }
       )
@@ -41,7 +42,7 @@ function Dashboard() {
 
   const deleteCategory = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/categories/${id}`, {
+      await axios.delete(`${API_URL}/api/categories/${id}`, {
         headers: { authorization: `Bearer ${token}` }
       })
       fetchCategories()

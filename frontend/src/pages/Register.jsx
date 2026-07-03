@@ -8,11 +8,11 @@ function Register() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
   const handleRegister = async () => {
     try {
-      await axios.post('http://localhost:8000/api/auth/register', { name, email, password })
-      navigate('/login')
+      await axios.post(`${API_URL}/api/auth/register`, { name, email, password })
     } catch (err) {
       setError('Email already exists or invalid data')
     }
